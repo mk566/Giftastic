@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Car Buttons</title>
+</head>
+
+<body>
+
+
+    <div id="gifs-appear-here">
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        // Create the buttons
+        var topics = ["Ferrari", "Lamborgini", "Ford", "Porsche", "Maserati", "Mercedes", "Cheverolet", "Dodge", "BMW"];
+        for (var i = 0; i < topics.length; i++) {
+
+            var button = $("<button>");
+            button.text(topics[i])
+            button.attr("term", topics[i])
+            $("#gifs-appear-here").append(button)
+
+        }
+
+        // when a button is clicked:
+        $(document).on("click", "button", function () {
+            //grab the search term from the button 
+            var car = $(this).attr("term");
+
+            //build the query url
+            var queryURL = "http://api.giphy.com/v1/gifs/search?q=" +
+                car + "&api_key=8Ezxsl60MoO3GhCeOdqh3Q3wKcrBYqj6&limit=10";
+
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function (response) {
+
+                console.log(response);
+
+                var imageDiv = $("<img>").attr("src", response.data[i].images.fixed_height.url)
+                $("body").append(imageDiv);
+
+                // <!-- Allow for gifs to be paused and restarted -->
+                var gifDiv = $(this).attr("gif-state");
+
+                if (gifDiv === "still") {
+                    $(this).attr("src", $(this).attr("gif-animate"));
+                    $(this).attr("gif-state", "animate");
+
+                }
+                else {
+                    $(this).attr("src", $(this).attr("gif-still"));
+                    $(this).attr("gif-state", "still");
+
+                }
+
+
+
+
+
+                // function response() {
+                //     var topics = document.getElementById("more");
+
+                //     for (var topics = 0; topics < never.length; i++) {
+                //         var topics = document.createElement("button");
+                //         topics.innerHTML = never[i];
+                //         more.appendChild(topics);
+                //     }
+                // }
+
+                var results = response.data;
+
+            });
+            // <!-- logs rating of each result item-->
+            var rating = results[i].rating;
+        });
+
+
+
+    </script>
+</body>
+
+</html>
